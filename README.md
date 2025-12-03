@@ -1,11 +1,53 @@
-<div align="center">
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# 语音库存管理系统 (Voice Inventory Manager)
 
-  <h1>Built with AI Studio</h2>
+这是一个基于 React 的渐进式 Web 应用 (PWA)。部署后，它可以像原生 APP 一样安装在安卓手机上，并支持离线运行。
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## ✨ 主要功能
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+*   **语音识别与语义匹配**：支持在线 (Gemini) 和离线 (Local Whisper) 两种模式。
+*   **数据可视化**：库存分类统计图表。
+*   **Excel 导出**：一键导出库存列表。
+*   **PWA 支持**：可安装到手机桌面，完全离线运行。
 
-</div>
+## 🚀 如何在手机上作为独立 APP 运行 (无需电脑)
+
+要让 APP 彻底脱离电脑运行，你需要将其部署到免费的云端托管平台（如 Vercel）。
+
+### 第一步：准备代码
+1.  确保本地已安装依赖：`npm install`
+2.  执行构建命令，检查是否报错：`npm run build`
+
+### 第二步：部署到 Vercel (最简单，推荐)
+1.  将你的项目代码上传到 **GitHub**。
+2.  访问 [Vercel.com](https://vercel.com) 并注册账号。
+3.  点击 **"Add New Project"**，选择你刚才上传的 GitHub 仓库。
+4.  Framework Preset 选择 **"Vite"**。
+5.  在 **Environment Variables** (环境变量) 中，添加你的 Gemini API Key：
+    *   Key: `API_KEY`
+    *   Value: `你的Gemini API Key`
+6.  点击 **Deploy**。
+
+### 第三步：手机安装
+1.  部署完成后，Vercel 会给你一个网址（例如 `https://your-app.vercel.app`）。
+2.  在手机 Chrome 浏览器中打开这个网址。
+3.  点击浏览器右上角菜单 -> **"安装应用"** 或 **"添加到主屏幕"**。
+4.  现在，你可以关闭电脑，随时随地在手机上点击桌面图标使用该 APP（甚至在飞行模式下也能用！）。
+
+## 🛠️ 本地开发
+
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+```
+
+## 📱 技术栈
+
+*   React 18, TypeScript
+*   Vite + Vite PWA Plugin
+*   Tailwind CSS
+*   Google GenAI SDK (Online AI)
+*   Transformers.js (Offline AI)

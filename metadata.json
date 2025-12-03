@@ -1,0 +1,7 @@
+{
+  "name": "语音库存管理",
+  "description": "一款语音驱动的库存管理应用。说出商品名称即可从本地数据库匹配商品，管理数量并导出为 Excel。",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
