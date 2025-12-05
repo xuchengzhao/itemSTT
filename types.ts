@@ -1,9 +1,11 @@
+
 export interface Product {
   id: string;
   name: string;
   category: string;
   unit: string;
   price: number;
+  image?: string;
 }
 
 export interface InventoryItem {
@@ -13,6 +15,7 @@ export interface InventoryItem {
   category: string;
   quantity: number;
   timestamp: number;
+  image?: string;
 }
 
 export enum AppState {

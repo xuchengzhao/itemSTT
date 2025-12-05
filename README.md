@@ -1,53 +1,86 @@
 
 # 语音库存管理系统 (Voice Inventory Manager)
 
-这是一个基于 React 的渐进式 Web 应用 (PWA)。部署后，它可以像原生 APP 一样安装在安卓手机上，并支持离线运行。
+一款基于 React + Vite + Capacitor 开发的现代库存管理应用。
+专为移动端设计，利用 **AI 大模型** 实现精准的语音指令解析，支持复杂的中文语义匹配和模糊音纠错。
 
-## ✨ 主要功能
+## ✨ 核心功能
 
-*   **语音识别与语义匹配**：支持在线 (Gemini) 和离线 (Local Whisper) 两种模式。
-*   **数据可视化**：库存分类统计图表。
-*   **Excel 导出**：一键导出库存列表。
-*   **PWA 支持**：可安装到手机桌面，完全离线运行。
+*   **🤖 智能语音识别 (ModelScope)**
+    *   集成 **魔搭社区 (ModelScope)** 的 `Qwen/Qwen2.5-72B-Instruct` 模型。
+    *   **超强语义理解**：支持同音字纠错（如“护西”->“护膝”）、方言模糊匹配。
+    *   **智能数量提取**：自动识别“两百个”、“一打”等中文数字描述。
 
-## 🚀 如何在手机上作为独立 APP 运行 (无需电脑)
+*   **🎙️ 增强型语音交互**
+    *   **15秒持续录音**：点击后开启 15 秒强制录音窗口，期间不会因说话停顿或静音而自动断开。
+    *   **自动重连机制**：解决安卓浏览器检测到静音后自动断开的问题，确保指令录入完整。
+    *   **可视化倒计时**：直观的环形进度条展示剩余录音时间。
 
-要让 APP 彻底脱离电脑运行，你需要将其部署到免费的云端托管平台（如 Vercel）。
+*   **⚙️ 灵活配置**
+    *   支持在应用界面内直接查看和修改 API Key，无需重新打包代码。
 
-### 第一步：准备代码
-1.  确保本地已安装依赖：`npm install`
-2.  执行构建命令，检查是否报错：`npm run build`
+*   **📊 数据管理**
+    *   实时库存列表与分类统计。
+    *   **一键导出 Excel**：生成标准 `.xlsx` 报表，支持通过微信/QQ 直接分享文件。
 
-### 第二步：部署到 Vercel (最简单，推荐)
-1.  将你的项目代码上传到 **GitHub**。
-2.  访问 [Vercel.com](https://vercel.com) 并注册账号。
-3.  点击 **"Add New Project"**，选择你刚才上传的 GitHub 仓库。
-4.  Framework Preset 选择 **"Vite"**。
-5.  在 **Environment Variables** (环境变量) 中，添加你的 Gemini API Key：
-    *   Key: `API_KEY`
-    *   Value: `你的Gemini API Key`
-6.  点击 **Deploy**。
+---
 
-### 第三步：手机安装
-1.  部署完成后，Vercel 会给你一个网址（例如 `https://your-app.vercel.app`）。
-2.  在手机 Chrome 浏览器中打开这个网址。
-3.  点击浏览器右上角菜单 -> **"安装应用"** 或 **"添加到主屏幕"**。
-4.  现在，你可以关闭电脑，随时随地在手机上点击桌面图标使用该 APP（甚至在飞行模式下也能用！）。
+## 📦 如何打包成 APK (Android 安装包)
 
-## 🛠️ 本地开发
+如果您希望生成一个 `.apk` 安装包安装到手机上，请严格按照以下步骤操作：
+
+### 1. 环境准备
+*   **Node.js** (v18+)
+*   **Java JDK 17** (必须是版本 17，Capacitor 6 强制要求)
+*   **Android Studio** (最新版)
+
+### 2. 构建项目
+在项目根目录打开终端：
 
 ```bash
 # 安装依赖
 npm install
 
-# 启动开发服务器
-npm run dev
+# 构建网页资源
+npm run build
+
+# 同步资源到 Android 项目
+npx cap add android  # 如果是第一次运行
+npm run android:sync # 每次修改代码后都要运行 (会自动注入权限)
 ```
 
-## 📱 技术栈
+### 3. 生成 APK 文件
+1.  运行命令打开 Android Studio：
+    ```bash
+    npm run android:open
+    ```
+2.  等待 Android Studio 加载完毕（右下角进度条跑完）。
+3.  点击顶部菜单：**Build** > **Build Bundle(s) / APK(s)** > **Build APK(s)**。
+4.  构建完成后，点击提示框中的 **locate**，即可找到 `app-debug.apk`。
 
-*   React 18, TypeScript
-*   Vite + Vite PWA Plugin
-*   Tailwind CSS
-*   Google GenAI SDK (Online AI)
-*   Transformers.js (Offline AI)
+*(注：权限配置现已通过脚本自动处理，无需手动修改 AndroidManifest.xml)*
+
+---
+
+## 🛠️ 常见问题
+
+**Q: 提示 "API Key 无效" 或 "401 Error"?**
+A: 请点击语音输入界面上的 **"配置 API Key"** 按钮，输入有效的魔搭社区 (ModelScope) Access Token (以 `ms-` 开头)。
+
+**Q: 需要联网吗？**
+A: **是的**。为了保证最高的识别精度（尤其是处理商品名称的同音字和模糊音），应用移除了臃肿的本地模型，现在完全依赖云端大模型，因此必须保持网络连接。
+
+**Q: 说话时为什么会有一瞬间的停顿？**
+A: 這是为了对抗浏览器的自动静音断开机制。应用会在检测到浏览器试图关闭录音时毫秒级自动重启，这可能导致极短的间隙，但能确保录音不会意外终止。
+
+---
+
+## 💻 本地开发指南
+
+```bash
+# 启动开发服务器
+npm run dev
+
+# 浏览器访问
+http://localhost:5173
+```

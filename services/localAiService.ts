@@ -1,3 +1,4 @@
+
 import { pipeline, env } from '@xenova/transformers';
 import { Product, MatchResult } from '../types';
 
@@ -106,7 +107,7 @@ export const matchProductLocally = (transcript: string, products: Product[]): Ma
   const bestMatch = candidates[0];
   const suggestions = candidates
     .filter(c => c.score > 0)
-    .slice(0, 5)
+    .slice(0, 20)
     .map(c => c.product.id);
 
   // Define threshold for "Confident Match"
